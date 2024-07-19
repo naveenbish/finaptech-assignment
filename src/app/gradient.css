@@ -1,0 +1,56 @@
+/* .gradient-border { */
+/*   border-inline-start: 4px solid; */
+/*   border-block-start: 4px solid; */
+/*   border-image-source: radial-gradient( */
+/*     circle at top left, */
+/*     black, */
+/*     transparent 50% */
+/*   ); */
+/*   border-image-slice: 1; */
+/*   padding: 10px; */
+/* } */
+/* for bottom and right  */
+.gradient-border {
+  border-bottom: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-image-source: radial-gradient(
+    circle at bottom right,
+    gray,
+    transparent 60%
+  );
+  border-image-slice: 1;
+}
+
+/* for left and bottom  */
+.gradient-border-2 {
+  border-left: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  border-image-source: radial-gradient(
+    circle at bottom left,
+    gray,
+    transparent 60%
+  );
+  border-image-slice: 1;
+}
+
+/* only for right  */
+.gradient-border-right {
+  border-right: 1px solid transparent;
+  border-image-source: radial-gradient(
+    circle at top right,
+    gray,
+    transparent 60%
+  );
+  border-image-slice: 1;
+}
+
+/* only for left */
+.gradient-border-left {
+  border-left: 1px solid transparent;
+  border-image-source: radial-gradient(
+    circle at top left,
+    gray,
+    transparent 60%
+  );
+  border-image-slice: 1;
+}
