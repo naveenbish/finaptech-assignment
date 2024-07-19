@@ -1,15 +1,23 @@
 "use client";
 import Header from "@/components/Header";
+import Validation from "@/components/Validation";
 import { memo, useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [pass, setPass] = useState<string>("");
+  const [validate, setvalidate] = useState<boolean>(false);
+
   function handleLogin() {
     event?.preventDefault();
+    setvalidate(true);
+    if (!pass || !email) {
+      return;
+    }
     console.log(email, pass);
     setEmail("");
     setPass("");
+    setvalidate(false);
   }
   return (
     <>
@@ -27,6 +35,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full py-4 placeholder-gray-700 focus:outline-none text-2xl"
                 />
+                <Validation validate={validate} value={email} type="email" />
               </div>
               <div className="border-b border-black">
                 <input
@@ -36,6 +45,7 @@ const Login = () => {
                   className="w-full py-4 placeholder-gray-700 focus:outline-none text-2xl"
                   onChange={(e) => setPass(e.target.value)}
                 />
+                <Validation validate={validate} value={pass} type="Password" />
               </div>
             </div>
             <button

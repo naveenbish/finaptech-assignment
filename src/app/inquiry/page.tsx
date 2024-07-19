@@ -175,7 +175,7 @@ function InqueryBody() {
               />
             </div>
             <div className="flex items-center my-3 ">
-              <div className="w-[133px]">Description:</div>
+              <div className="md:w-[133px] w-[150px]">Description:</div>
               <input
                 type="text"
                 className="focus:outline-none bg-gray-200 p-1 text-gray-500 w-full"

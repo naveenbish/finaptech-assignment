@@ -6,19 +6,51 @@ import Header from "@/components/Header";
 const Pincode = () => {
   const [data, setData] = useState<any[]>([]);
   const [status, setStatus] = useState<string>("");
-  const [pincode, setPincode] = useState<number>(110001);
+  const [pincode, setPincode] = useState<number | string>("110001");
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (!isNaN(Number(value)) && value.trim() !== "") {
+      setPincode(Number(value));
+    } else {
+      setPincode(value);
+    }
+  };
 
   function getData() {
     event?.preventDefault();
-    if (isNaN(pincode)) {
+    if (pincode === "") {
       return;
     }
-    setData([]);
-    axios.get(`https://api.postalpincode.in/pincode/${pincode}`).then((res) => {
-      const resData = res.data[0].PostOffice;
-      setData(resData);
-      setStatus(res.data[0].Status);
-    });
+
+    if (typeof pincode == "number") {
+      setData([]);
+      axios
+        .get(`https://api.postalpincode.in/pincode/${pincode}`)
+        .then((res) => {
+          if (res.data[0].Status == 404) {
+            setData([]);
+            return;
+          }
+          const resData = res.data[0].PostOffice;
+          setData(resData);
+          setStatus(res.data[0].Status);
+        });
+    }
+    if (typeof pincode == "string") {
+      setData([]);
+      axios
+        .get(`https://api.postalpincode.in/postoffice/${pincode}`)
+        .then((res) => {
+          if (res.data[0].Status == 404) {
+            setData([]);
+            return;
+          }
+          const resData = res.data[0].PostOffice;
+          setData(resData);
+          setStatus(res.data[0].Status);
+        });
+    }
   }
 
   useEffect(() => {
@@ -38,9 +70,7 @@ const Pincode = () => {
             <input
               type="text"
               className="text-xl w-full focus:outline-none"
-              onChange={(event) => {
-                setPincode(parseInt(event.target.value));
-              }}
+              onChange={handleInputChange}
             />
             <button type="submit">
               <img src={Go.src} className="h-10 w-10" />
@@ -53,7 +83,7 @@ const Pincode = () => {
           </div>
           <div>
             {status == "Error" ? (
-              "No data found"
+              "Pleae search for a valid data [ Example '110077' OR 'New Delhi' ]"
             ) : (
               <PostOfficeData data={data} />
             )}

@@ -1,5 +1,6 @@
 "use client";
 import Header from "@/components/Header";
+import Validation from "@/components/Validation";
 import { memo, useState } from "react";
 
 const Signup = () => {
@@ -7,14 +8,20 @@ const Signup = () => {
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [pass, setPass] = useState<string>("");
+  const [validate, setValidate] = useState<boolean>(false);
 
   function handleSubmit() {
     event?.preventDefault();
+    setValidate(true);
+    if (!name || !email || !phone || !pass) {
+      return;
+    }
     console.log(name, email, phone, pass);
     setName("");
     setEmail("");
     setPhone("");
     setPass("");
+    setValidate(false);
   }
   return (
     <>
@@ -33,6 +40,7 @@ const Signup = () => {
                 className="w-full py-4 placeholder-gray-700 focus:outline-none text-2xl"
                 onChange={(e) => setName(e.target.value)}
               />
+              <Validation validate={validate} value={name} type="Name" />
             </div>
             <div className="border-b border-black">
               <input
@@ -42,6 +50,7 @@ const Signup = () => {
                 className="w-full py-4 placeholder-gray-700 focus:outline-none text-2xl"
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <Validation validate={validate} value={email} type="email" />
             </div>
             <div className="border-b border-black">
               <input
@@ -51,6 +60,7 @@ const Signup = () => {
                 className="w-full py-4 placeholder-gray-700 focus:outline-none text-2xl"
                 onChange={(e) => setPhone(e.target.value)}
               />
+              <Validation validate={validate} value={phone} type="Phone" />
             </div>
             <div className="border-b border-black">
               <input
@@ -60,6 +70,7 @@ const Signup = () => {
                 className="w-full py-4 placeholder-gray-700 focus:outline-none text-2xl"
                 onChange={(e) => setPass(e.target.value)}
               />
+              <Validation validate={validate} value={pass} type="Password" />
             </div>
             <button
               className="bg-gray-800 text-white py-4 w-full  rounded-md text-3xl font-bold"
