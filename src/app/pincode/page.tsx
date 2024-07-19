@@ -3,10 +3,13 @@ import { memo, useEffect, useState } from "react";
 import axios from "axios";
 import Go from "../../../public/assets/Go.png";
 import Header from "@/components/Header";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Pincode = () => {
   const [data, setData] = useState<any[]>([]);
   const [status, setStatus] = useState<string>("");
-  const [pincode, setPincode] = useState<number | string>("110001");
+  const [pincode, setPincode] = useState<number | string>(110077);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -28,8 +31,10 @@ const Pincode = () => {
       axios
         .get(`https://api.postalpincode.in/pincode/${pincode}`)
         .then((res) => {
-          if (res.data[0].Status == 404) {
-            setData([]);
+          if (res.data[0].Status == "Error") {
+            toast.warning("Please enter valid Pincode.", {
+              theme: "dark",
+            });
             return;
           }
           const resData = res.data[0].PostOffice;
@@ -42,8 +47,10 @@ const Pincode = () => {
       axios
         .get(`https://api.postalpincode.in/postoffice/${pincode}`)
         .then((res) => {
-          if (res.data[0].Status == 404) {
-            setData([]);
+          if (res.data[0].Status == ("Error" || 404)) {
+            toast.warning("Please enter valid PostOffice Name.", {
+              theme: "dark",
+            });
             return;
           }
           const resData = res.data[0].PostOffice;
@@ -89,6 +96,7 @@ const Pincode = () => {
             )}
           </div>
           {/* </div> */}
+          <ToastContainer />
         </div>
       </div>
     </>
